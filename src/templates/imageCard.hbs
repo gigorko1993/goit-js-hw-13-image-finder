@@ -1,22 +1,21 @@
-{{#each this.hits}}
+{{#each this}}
 <div class="photo-card">
-    <img src={{webformatURL}} alt=`111` />
-
+    <img src={{webformatURL}} alt="{{tags}}" class="js-ligthbox"/>
     <div class="stats">
         <p class="stats-item">
-            <i class="material-icons">thumb_up</i>
+            <i class="material-icons gray08">thumb_up</i>
             {{likes}}
         </p>
         <p class="stats-item">
-            <i class="material-icons">visibility</i>
+            <i class="material-icons gray08">visibility</i>
             {{views}}
         </p>
         <p class="stats-item">
-            <i class="material-icons">comment</i>
+            <i class="material-icons gray08">comment</i>
             {{comments}}
         </p>
         <p class="stats-item">
-            <i class="material-icons">cloud_download</i>
+            <i class="material-icons gray08">cloud_download</i>
             {{downloads}}
         </p>
     </div>

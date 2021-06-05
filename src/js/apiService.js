@@ -5,8 +5,22 @@ import '@pnotify/core/dist/BrightTheme.css';
 const BASE_URL = 'https://pixabay.com/api/?image_type=photo&orientation=horizontal&';
 const ApiKey = '9062055-da883187fb30391728e11f5fd';
 
-function fetchImages(name) {
-  const url = `${BASE_URL}q=${name}&page=1&per_page=12&key=${ApiKey}`;
+
+
+export default class ImageApiService {
+  constructor() {
+    this.searchQuery = '';
+    this.page = 1;
+  }
+
+  fetchImages() {
+    const searchParams = new URLSearchParams({
+      q: this.searchQuery,
+      page: this.page,
+      per_page: 12,
+    })
+    const url = `${BASE_URL}${searchParams}&key=${ApiKey}`;
+    console.log('dd', searchParams)
   return fetch(url).then(res => {
     if (!res.ok) {
       res.status === 404
@@ -20,7 +34,23 @@ function fetchImages(name) {
           });
     }
     return res.json();
-  });
-}
+  })
+    .then(({ hits }) => hits)
+  }
+  
+  incrementPage() {
+    this.page += 1;
+  }
 
-export default { fetchImages };
+  resetPage() {
+    this.page = 1;
+  }
+
+  get query() {
+    return this.searchQuery;
+  }
+
+  set query(newQuery) {
+    this.searchQuery = newQuery;
+  }
+};
