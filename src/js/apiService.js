@@ -1,4 +1,4 @@
-import { error } from '@pnotify/core';
+import { error, success } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 
@@ -30,6 +30,13 @@ export default class ImageApiService {
                 text: 'Sorry, it can be issues with server.',
                 delay: 3500,
               });
+        }
+        if (this.page === 1) {
+          success({
+    title: 'Success!',
+    text: 'Find all pictures that you search.',
+    delay: 2000,
+  });
         }
         return res.json();
       })

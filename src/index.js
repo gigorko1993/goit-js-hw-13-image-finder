@@ -36,7 +36,7 @@ function onSearch(e) {
 function renderImageCard(image) {
   if (image.length <= 0) {
     error({
-      text: 'Please enter a more specific query!',
+      text: 'Can`t find empty query. Please< enter, what you want to find!',
       delay: 3500,
     });
     return;
@@ -60,7 +60,7 @@ const onEntry = entries => {
   });
 };
 const options = {
-  rootMargin: '150px',
+  rootMargin: '200px',
 };
 const observer = new IntersectionObserver(onEntry, options);
 observer.observe(refs.watcher);
