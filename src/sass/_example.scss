@@ -1,3 +1,23 @@
 .material-icons.gray08 {
   color: rgba(47, 47, 51, 0.8);
 }
+.search-form {
+  text-align: center;
+}
+.search-form input {
+  width: 80%;
+  font-size: 2rem;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.stats {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+}
+.stats-item {
+  display: flex;
+  align-items: center;
+}

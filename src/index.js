@@ -7,48 +7,46 @@ import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 import 'material-icons/iconfont/material-icons.css';
 
-const basicLightbox = require('basiclightbox');
-
 const imageApiService = new ImageApiService();
 
 const debounce = require('lodash.debounce');
 const refs = getRefs();
 
-
 refs.input.addEventListener('input', debounce(onSearch, 500));
 
 function onSearch(e) {
   e.preventDefault();
+
   imageApiService.query = e.target.value.trim();
-  console.log(imageApiService.query.length)
   if (!imageApiService.query.length) {
     error({
       text: 'Please change inputed query',
       delay: 3500,
     });
-   return refs.cardContainer.innerHTML = '';
+    return clearImageCard();
   }
+  clearImageCard();
   imageApiService.resetPage();
   imageApiService.fetchImages().then(res => {
     renderImageCard(res);
     imageApiService.incrementPage();
-    });
+  });
 }
 
 function renderImageCard(image) {
-  refs.cardContainer.innerHTML = '';
-  console.log(image.length)
-  if (image.length > 0) {
-      const markup = imageCardsTpl(image);
-    refs.cardContainer.innerHTML = markup;
-    imageEl.forEach(e => {e.addEventListener('click', onImgClicked(image.largeImageURL));})
-  } else {
+  if (image.length <= 0) {
     error({
-      text: 'Too many matches found. Please enter a more specific query!',
+      text: 'Please enter a more specific query!',
       delay: 3500,
     });
+    return;
   }
-   return;
+  const markup = imageCardsTpl(image);
+  return (refs.cardContainer.innerHTML += markup);
+}
+
+function clearImageCard() {
+  return (refs.cardContainer.innerHTML = '');
 }
 
 const onEntry = entries => {
@@ -56,26 +54,13 @@ const onEntry = entries => {
     if (element.isIntersecting && imageApiService.query !== '') {
       imageApiService.fetchImages().then(res => {
         renderImageCard(res);
-        imageApiService.incrementPage()
+        imageApiService.incrementPage();
       });
     }
   });
 };
-
-const observer = new IntersectionObserver(onEntry, {
-  rootMargin: '100px',
-});
+const options = {
+  rootMargin: '150px',
+};
+const observer = new IntersectionObserver(onEntry, options);
 observer.observe(refs.watcher);
-
-const imageEl = document.querySelectorAll('.js-ligthbox');
-function onImgClicked(value){
-  const instance = basicLightbox.create(
-        `<template>
-        <div class="modal">
-        <img src=${value} alt="{{tags}}"/>
-        </div>
-    </template>`
-  )
-  
-  instance.show()
-}
