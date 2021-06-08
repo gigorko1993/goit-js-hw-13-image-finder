@@ -3,5 +3,7 @@ export default function getRefs() {
     cardContainer: document.querySelector('.gallery'),
     input: document.querySelector('.search-form'),
     watcher: document.querySelector('#watcher'),
+    imgIconEl: document.querySelector('.gallery'),
+    buttonUpEl: document.querySelector('.button-up'),
   };
 }

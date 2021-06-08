@@ -7,12 +7,14 @@ import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 import 'material-icons/iconfont/material-icons.css';
 
+const basicLightbox = require('basiclightbox');
+const debounce = require('lodash.debounce');
+
+const refs = getRefs();
 const imageApiService = new ImageApiService();
 
-const debounce = require('lodash.debounce');
-const refs = getRefs();
-
 refs.input.addEventListener('input', debounce(onSearch, 500));
+refs.imgIconEl.addEventListener('click', onDisplayBigImg);
 
 function onSearch(e) {
   e.preventDefault();
@@ -55,6 +57,7 @@ const onEntry = entries => {
       imageApiService.fetchImages().then(res => {
         renderImageCard(res);
         imageApiService.incrementPage();
+        refs.buttonUpEl.classList.remove('visually-hidden')
       });
     }
   });
@@ -64,3 +67,15 @@ const options = {
 };
 const observer = new IntersectionObserver(onEntry, options);
 observer.observe(refs.watcher);
+
+function onDisplayBigImg(e) {
+  if (e.target.nodeName !== 'IMG') {
+    return;
+  }
+  console.log(e.target.dataset.lightbox);
+  const instance = basicLightbox.create(`
+    <img src="${e.target.dataset.lightbox}" alt="${e.target.alt}">
+`);
+  instance.show();
+  return;
+}

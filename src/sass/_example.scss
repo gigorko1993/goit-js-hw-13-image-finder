@@ -1,6 +1,23 @@
+.visually-hidden {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+}
 .material-icons.gray08 {
   color: #4267b2;
   margin-right: 5px;
+}
+.material-icons.button-up {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 60px;
+
+  background-color: inherit;
+  color: rgba(70, 70, 70, 0.4);
+  text-decoration: none;
 }
 .search-form {
   text-align: center;
